@@ -16,13 +16,13 @@ jobs:
       run:
         shell: bash
 
-    # Checkout the repository to the GitHub Actions runner
     steps:
     - name: Setup Python 3
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8'
+        python-version: [3.8]
 
+      # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v2
 
