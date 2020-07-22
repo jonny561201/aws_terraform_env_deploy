@@ -35,7 +35,7 @@ function installPythonDependencies {
   echo -e "${GREEN}----------Installing Python files to directory----------${WHITE}"
   UPDATED_REQUIREMENTS=$(cat requirements.txt | grep -v boto3)
   UPDATED_REQUIREMENTS=$(echo $UPDATED_REQUIREMENTS | tr '\r\n' ' ')
-  pip install --target="${PRESENT_DIR}/${ZIP_DIR}" -U ${UPDATED_REQUIREMENTS}
+  python -m pip install --target="${PRESENT_DIR}/${ZIP_DIR}" -U ${UPDATED_REQUIREMENTS}
 }
 
 function deleteExistingFolders {
