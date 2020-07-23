@@ -35,7 +35,11 @@ function installPythonDependencies {
   echo -e "${GREEN}----------Installing Python files to directory----------${WHITE}"
   UPDATED_REQUIREMENTS=$(cat requirements.txt | grep -v boto3)
   UPDATED_REQUIREMENTS=$(echo $UPDATED_REQUIREMENTS | tr '\r\n' ' ')
-  python -m pip install --target="${PRESENT_DIR}/${ZIP_DIR}" -U ${UPDATED_REQUIREMENTS}
+  if [[ "$OSTYPE" == "msys" ]]; then
+    python -m pip install --target="${PRESENT_DIR}/${ZIP_DIR}" -U ${UPDATED_REQUIREMENTS}
+  else
+    python3 -m pip install --target="${PRESENT_DIR}/${ZIP_DIR}" -U ${UPDATED_REQUIREMENTS}
+  fi
 }
 
 function deleteExistingFolders {
@@ -52,7 +56,12 @@ function deleteExistingZipFile {
   fi
 }
 
+function printingFolders {
+  echo "-----------Printing Folders----------"
+  ls -A
+}
 
+printingFolders
 deleteExistingFolders
 deleteExistingZipFile
 createDirectories
