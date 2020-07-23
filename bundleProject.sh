@@ -22,8 +22,8 @@ function zipFiles {
 function createDirectories {
   echo -e "${GREEN}----------Creating zip directory and copying python files----------${WHITE}"
   mkdir "${ZIP_DIR}"
-  cp app.py ${ZIP_DIR}
-  cp -r src ${ZIP_DIR}
+  if [[ -f app.py ]]; then cp app.py ${ZIP_DIR}; fi
+  if [[ -f src ]]; then cp -r src ${ZIP_DIR}; fi
 }
 
 function cleanupDirectory {
@@ -42,6 +42,15 @@ function installPythonDependencies {
   fi
 }
 
+function validateDependencies {
+  if [[ -f requirements.txt ]]; then
+    echo "----------requirements found----------"
+    installPythonDependencies
+  else
+    echo "----------requirements not found----------"
+  fi
+}
+
 function deleteExistingFolders {
   if [[ -d "$ZIP_DIR" ]]; then
     echo -e "${GREEN}----------Deleting existing zip directory: ${ZIP_DIR}----------${WHITE}"
@@ -56,15 +65,9 @@ function deleteExistingZipFile {
   fi
 }
 
-function printingFolders {
-  echo "-----------Printing Folders----------"
-  ls -A
-}
-
-printingFolders
 deleteExistingFolders
 deleteExistingZipFile
 createDirectories
-installPythonDependencies
+validateDependencies
 zipFiles
 cleanupDirectory
